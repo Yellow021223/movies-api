@@ -4,7 +4,12 @@ networks:
   mongo-network:
     external: true
     name: 'mongo-network'
-
+  redis-network:
+    external: true
+    name: 'redis-network'
+  api-network:
+    external: true
+    name: 'api-network'
 
 services:
 
@@ -18,7 +23,8 @@ services:
     ports:
       - '9000:9000'
     networks:
-      - mongo-network
+      - api-network
+      - redis-network
     depends_on:
       - mongo
       - redis
@@ -31,6 +37,7 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=password
     networks:
       - mongo-network
+      - api-network
     ports:
       - 27017:27017
     volumes:
@@ -55,4 +62,4 @@ services:
     image: redis:alpine
     container_name: redis
     networks:
-      - mongo-network
+      - redis-network
